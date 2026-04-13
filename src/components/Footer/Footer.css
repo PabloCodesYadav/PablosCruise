@@ -1,0 +1,159 @@
+.footer { background: var(--navy-dark); color: rgba(255,255,255,0.8); margin-top: 80px; }
+
+/* Newsletter */
+.footer__newsletter {
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  padding: 40px 0;
+}
+.footer__newsletter-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.footer__nl-title {
+  font-size: 22px;
+  color: white;
+  margin-bottom: 4px;
+}
+.footer__nl-sub { font-size: 14px; color: rgba(255,255,255,0.7); }
+.footer__nl-form { display: flex; gap: 0; border-radius: var(--radius-sm); overflow: hidden; flex-shrink: 0; }
+.footer__nl-input {
+  padding: 13px 20px;
+  border: none;
+  outline: none;
+  font-size: 15px;
+  width: 280px;
+  background: white;
+}
+.footer__nl-form .btn { border-radius: 0; }
+
+/* Main */
+.footer__main { padding: 64px 0 40px; }
+.footer__grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  gap: 40px;
+}
+
+/* Brand */
+.footer__logo { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.footer__logo-icon { font-size: 24px; }
+.footer__logo-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: white;
+}
+.footer__brand-desc {
+  font-size: 14px;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 20px;
+}
+.footer__socials { display: flex; gap: 10px; margin-bottom: 20px; }
+.footer__social {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: white;
+  transition: var(--transition);
+  text-decoration: none;
+}
+.footer__social:hover { background: var(--navy-light); transform: translateY(-2px); }
+.footer__trust { display: flex; flex-wrap: wrap; gap: 8px; }
+.footer__trust span {
+  font-size: 11px;
+  font-weight: 600;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 4px 10px;
+  border-radius: 100px;
+  color: rgba(255,255,255,0.75);
+}
+
+/* Columns */
+.footer__col-heading {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: white;
+  margin-bottom: 16px;
+}
+.footer__col-links { display: flex; flex-direction: column; gap: 10px; }
+.footer__link {
+  font-size: 14px;
+  color: rgba(255,255,255,0.6);
+  transition: var(--transition);
+  text-decoration: none;
+}
+.footer__link:hover { color: white; padding-left: 4px; }
+
+/* VIP Strip */
+.footer__vip-strip {
+  background: linear-gradient(135deg, var(--escobar-black), #1a1200);
+  border-top: 1px solid rgba(201,168,76,0.3);
+  border-bottom: 1px solid rgba(201,168,76,0.3);
+  padding: 16px 0;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.footer__vip-strip:hover { background: linear-gradient(135deg, #1a1200, #2a1f00); }
+.footer__vip-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.footer__vip-text {
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+}
+.footer__vip-cta {
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  color: var(--gold-light);
+  font-weight: 600;
+}
+
+/* Bottom */
+.footer__bottom {
+  padding: 20px 0;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.footer__bottom-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.footer__bottom-inner p { font-size: 13px; color: rgba(255,255,255,0.4); }
+.footer__payments { display: flex; gap: 8px; align-items: center; }
+.footer__pay {
+  font-size: 11px;
+  font-weight: 700;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  padding: 4px 10px;
+  border-radius: 4px;
+  color: rgba(255,255,255,0.6);
+}
+
+@media (max-width: 1100px) {
+  .footer__grid { grid-template-columns: 1fr 1fr 1fr; }
+  .footer__brand { grid-column: 1 / -1; }
+}
+@media (max-width: 600px) {
+  .footer__grid { grid-template-columns: 1fr 1fr; }
+  .footer__nl-form { flex-direction: column; border-radius: var(--radius-sm); }
+  .footer__nl-input { width: 100%; }
+  .footer__nl-form .btn { border-radius: 0 0 var(--radius-sm) var(--radius-sm); }
+  .footer__vip-inner { flex-direction: column; gap: 8px; text-align: center; }
+}
